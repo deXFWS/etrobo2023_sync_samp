@@ -37,6 +37,51 @@ int8_t getBrightness() constz{
 }
 */
 
+//黒色判定
+bool ColorSensor::Black_HSV(){
+    bool jdg_val;
+
+    calcHSV();
+    
+    //↓の数値はあてずっぽうなので実機で計測したい
+    if((loc_hsv.h < 0.40f) && (loc_hsv.s < 0.1f)){
+        jdg_val = true;
+    }else{
+        jdg_val = false;
+    }
+    return jdg_val;
+}
+
+//白色判定
+bool ColorSensor::White_HSV(){
+    bool jdg_val;
+
+    calcHSV();
+    
+    //↓の数値はあてずっぽうなので実機で計測したい
+    if((loc_hsv.h > 0.40f) && (loc_hsv.s > 0.1f)){
+        jdg_val = true;
+    }else{
+        jdg_val = false;
+    }
+    return jdg_val;
+}
+
+//青色判定
+bool ColorSensor::Blue_HSV(){
+    bool jdg_val;
+
+    calcHSV();
+    
+    //↓の数値はあてずっぽうなので実機で計測したい
+    if((loc_hsv.h > 0.30f) && (loc_hsv.h < 0.33f)){
+        jdg_val = true;
+    }else{
+        jdg_val = false;
+    }
+    return jdg_val;
+}
+
 //キャリブレーションを行い
 //黒と白の時のrgb値をオフセットする
 void ColorSensor::getRGB(){
