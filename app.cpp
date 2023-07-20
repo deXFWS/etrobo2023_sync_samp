@@ -1,6 +1,7 @@
 #include "app.h" // <1>
 #include "Tracer.h" // <2>
 #include "Clock.h"  // <3>
+#include "ColorMonitor.h"
 using namespace ev3api;
 
 Tracer tracer;  // <4>

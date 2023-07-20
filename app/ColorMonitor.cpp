@@ -1,35 +1,46 @@
-#include "ColorSensor.h"
+//ColorMonitor.cpp
+#include "ColorMonitor.h"
 
-// #ifdef robo_no,,,
+ColorMonitor::ColorMonitor():
+            colorSensor(PORT_2){
+            }
 
-//定数宣言
-const float ColorMonitor::BLACK_JDG = 10.0f;
-const float ColorMonitor::WHITE_JDG = 50.0f;
-const float ColorMonitor::BLUE_JDG = 50.0f;
-
-// #endif robo_no,,,
-
-/*
-コンストラクタ
-*/
-ColorMonitor::ColorMonitor(const ev3api::ColorSensor& colorSensor)
-            :mColorSensor(colorSensor),
-             mBlack(10.0f),
-             mWhite(50.0f),
-             mBlue(50.0f){
+void Color::init(){
+    colorSensor.getRAWColor(rgb)
+    Red = rgb.r;
+    Green = rgb.g;
+    Blue = rgb.b;
 
 }
 
+/////↓はHSV計算式/////
+
 /*
-カラーセンサ
+//コンストラクタ
+
+ColorMonitor::ColorMonitor():
+            mColorSensor(PORT_2),
+            mRed(0.0f),
+            mGreen(0.0f),
+            mBlue(0.0f){}
+
+void ColorMonitor::getRGB_raw(rgb_raw_t & rgb){
+    mColorSensor.getRAWColor(rgb_val);
+
+    mRed = (float)(rgb_val.r);
+    mGreen = (float)(rgb_val.g);
+    mBlue = (float)(rgb_val.b)
+}
 */
 
 /* 反射光は使用しないため無効化
 int8_t getBrightness() constz{
-    return mColorSensor.getBrightness(); //反射光の強さ(0-100)
+    return ColorSensor.getBrightness(); //反射光の強さ(0-100)
 }
 */
 
+
+/*
 //黒色判定
 bool ColorMonitor::Black_HSV(){
     bool jdg_val;
@@ -94,6 +105,7 @@ void ColorMonitor::getRAWColor(rgb_raw_t & rgb){
     rgb.b = rgb_val.b;
 }
 
+
 //
 void ColorMonitor::getHSVValue(hsv_val_t & hsv){
     calcHSV();
@@ -140,7 +152,7 @@ void ColorMonitor::calcHSV(){
 }
 
 //キャリブレーション用の黒rgbと白rgb
-void ColorMonitor::ColorCalib(offset_val_t offset, coof_val_t coefficient){
+void ColorMonitor::ColorCalib(offset_val_t offset, coef_val_t coefficient){
     offsetBlack.r = offset.r;
     offsetBlack.g = offset.g;
     offsetBlack.b = offset.b;
@@ -149,4 +161,4 @@ void ColorMonitor::ColorCalib(offset_val_t offset, coof_val_t coefficient){
     coefficientWhite.g = coefficient.g;
     coefficientWhite.b = coefficient.b;
 }
-
+*/
