@@ -3,16 +3,16 @@
 // #ifdef robo_no,,,
 
 //定数宣言
-const float ColorSensor::BLACK_JDG = 10.0f;
-const float ColorSensor::WHITE_JDG = 50.0f;
-const float ColorSensor::BLUE_JDG = 50.0f;
+const float ColorMonitor::BLACK_JDG = 10.0f;
+const float ColorMonitor::WHITE_JDG = 50.0f;
+const float ColorMonitor::BLUE_JDG = 50.0f;
 
 // #endif robo_no,,,
 
 /*
 コンストラクタ
 */
-ColorSensor::ColorSensor(PORT_3)
+ColorMonitor::ColorMonitor(const ev3api::ColorSensor& colorSensor)
             :mColorSensor(colorSensor),
              mBlack(10.0f),
              mWhite(50.0f),
@@ -23,13 +23,6 @@ ColorSensor::ColorSensor(PORT_3)
 /*
 カラーセンサ
 */
-//ColorSensor::ColorSensor():
-    //ColorSensor(PORT_3){}     //ポート番号確認
-
-bool ColorSensor::ResBlack() const{
-    //反射光の強さを見て閾値以下で
-    if(mColorSensor.getBrightness)
-}
 
 /* 反射光は使用しないため無効化
 int8_t getBrightness() constz{
@@ -38,7 +31,7 @@ int8_t getBrightness() constz{
 */
 
 //黒色判定
-bool ColorSensor::Black_HSV(){
+bool ColorMonitor::Black_HSV(){
     bool jdg_val;
 
     calcHSV();
@@ -53,7 +46,7 @@ bool ColorSensor::Black_HSV(){
 }
 
 //白色判定
-bool ColorSensor::White_HSV(){
+bool ColorMonitor::White_HSV(){
     bool jdg_val;
 
     calcHSV();
@@ -68,7 +61,7 @@ bool ColorSensor::White_HSV(){
 }
 
 //青色判定
-bool ColorSensor::Blue_HSV(){
+bool ColorMonitor::Blue_HSV(){
     bool jdg_val;
 
     calcHSV();
@@ -84,7 +77,7 @@ bool ColorSensor::Blue_HSV(){
 
 //キャリブレーションを行い
 //黒と白の時のrgb値をオフセットする
-void ColorSensor::getRGB(){
+void ColorMonitor::getRGB(){
     mColorSensor.getRAWColor(rgb_val);
 
     //start_calivration
@@ -93,7 +86,7 @@ void ColorSensor::getRGB(){
     mBlue = ((float)(rgb_val.b - offsetBlack.b))*coefficientWhite.b;
 }
 
-void ColorSensor::getRAWColor(rgb_raw_t & rgb){
+void ColorMonitor::getRAWColor(rgb_raw_t & rgb){
     mColorSensor.getRAWColor(rgb_val);
 
     rgb.r = rgb_val.r;
@@ -102,7 +95,7 @@ void ColorSensor::getRAWColor(rgb_raw_t & rgb){
 }
 
 //
-void ColorSensor::getHSVValue(hsv_val_t & hsv){
+void ColorMonitor::getHSVValue(hsv_val_t & hsv){
     calcHSV();
     hsv = loc_hsv;
 }
@@ -110,7 +103,7 @@ void ColorSensor::getHSVValue(hsv_val_t & hsv){
 //RGB→HSV変換処理
 //calcHSV();で
 //loc_hsv.h, loc_hsv.s, loc_hsv.vとして呼び出し
-void ColorSensor::calcHSV(){
+void ColorMonitor::calcHSV(){
     getRGB();
     float r,g,b;
     r = (float)(mRed)/100.0f;
@@ -147,7 +140,7 @@ void ColorSensor::calcHSV(){
 }
 
 //キャリブレーション用の黒rgbと白rgb
-void ColorSensor::ColorCalib(offset_val_t offset, coof_val_t coefficient){
+void ColorMonitor::ColorCalib(offset_val_t offset, coof_val_t coefficient){
     offsetBlack.r = offset.r;
     offsetBlack.g = offset.g;
     offsetBlack.b = offset.b;
